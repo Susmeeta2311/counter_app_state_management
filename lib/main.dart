@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:state_management/controller/profile_controller.dart';
+import 'package:state_management/controller/todo_controller.dart';
 import 'package:state_management/counter_getx_page.dart';
 
+import 'controller/counter_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,12 +17,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple,brightness: Brightness.light),
         useMaterial3: true,
       ),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple, brightness: Brightness.dark),
+      ),
+      themeMode: ThemeMode.system,
+
+
+      initialBinding: BindingsBuilder(() {
+        //IT WILL ALLOCATE MEMORY AT THE STARTING OF THE APPLICATION
+        Get.put(CounterController()); // DEPENDENCY INJECTION
+        Get.put(TodoController());
+        // IT WILL ALLOCATE MEMORY AT THE TIME OF NAVIGATING TO THE PROFILE PAGE
+        Get.lazyPut<ProfileController>(() => ProfileController());
+      }),
       home: CounterGetxPage(),
     );
   }
@@ -27,7 +43,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
 
   final String title;
 
@@ -40,14 +55,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-
       _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
@@ -62,7 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
-
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(

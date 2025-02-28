@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:state_management/controller/counter_controller.dart';
+import 'package:state_management/todo_page.dart';
 
 
 class CounterGetxPage extends GetView<CounterController> {
@@ -8,8 +10,78 @@ class CounterGetxPage extends GetView<CounterController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(CounterController());
     return Scaffold(
+      drawer: Drawer(
+        child: Column(
+          children: [
+            DrawerHeader(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                // Centers content vertically
+                children: [
+                  CircleAvatar(
+                    radius: 30, // Circular profile image/icon
+                    backgroundColor: Colors.transparent,
+                    child: Icon(Icons.person, size: 70),
+                  ),
+                  SizedBox(height: 15.0), // Spacing
+                  Text("Hello User", style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: SvgPicture.asset(
+                "assets/icons/todo.svg",
+                height: 34.0,
+                width: 34.0,
+              ),
+              title: Text("Todo"),
+              onTap: () {
+                //NAVIGATE TO THE BACK SCREEN
+                Get.back();
+
+                //NAVIGATE TO THE NEXT SCREEN
+                Get.to(TodoPage());
+              },
+            ),
+            ListTile(
+              leading: SvgPicture.asset(
+                "assets/icons/setting.svg",
+                height: 34.0,
+                width: 34.0,
+              ),
+              title: Text("Settings"),
+              onTap: () {
+
+              },
+            ),
+            ListTile(
+              leading: SvgPicture.asset(
+                "assets/icons/theme.svg",
+                height: 34.0,
+                width: 34.0,
+              ),
+              title: Text("Theme"),
+              onTap: () {
+                controller.onThemeClicked();
+              },
+            ),
+            ListTile(
+              leading: SvgPicture.asset(
+                "assets/icons/profile.svg",
+                height: 34.0,
+                width: 34.0,
+              ),
+              title: Text("profile"),
+              onTap: () {
+
+              },
+            ),
+          ],
+        ),
+      ),
+
       appBar: AppBar(
         title: const Text(
           "Counter App",
